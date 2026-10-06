@@ -29,7 +29,7 @@ trait HasProgressStepperStyle
 
     protected ?Closure $hideStatesFor = null;
 
-    protected Size | string | Closure $size = Size::Medium;
+    protected BackedEnum | string | Closure | null $stepperSize = Size::Medium;
 
     protected Direction | string | Closure $direction = Direction::Horizontal;
 
@@ -182,18 +182,18 @@ trait HasProgressStepperStyle
         return $this;
     }
 
-    public function size(Size | string | Closure $size): static
+    public function size(BackedEnum | string | Closure | null $size): static
     {
-        $this->size = $size;
+        $this->stepperSize = $size;
 
         return $this;
     }
 
     public function getSize(): string
     {
-        $size = $this->evaluate($this->size);
+        $size = $this->evaluate($this->stepperSize);
 
-        $value = $size instanceof Size ? $size->value : $size;
+        $value = $size instanceof BackedEnum ? $size->value : $size;
 
         return Size::tryFrom((string) $value)?->value ?? Size::default()->value;
     }
